@@ -234,10 +234,6 @@ Inference parameters: Temperature=0.6, Top_P=0.95
 - GitHub: https://github.com/ttdxq/Qwen3-4B-Instruct-2507-mahjong-alpha
 - Hugging Face: https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha
 
-## Repository Links
-
-- GitHub: https://github.com/ttdxq/Qwen3-4B-Instruct-2507-mahjong-alpha
-- Hugging Face: https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha
 
 ## License
 
