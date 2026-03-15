@@ -232,10 +232,6 @@
 - GitHub：https://github.com/ttdxq/Qwen3-4B-Instruct-2507-mahjong-alpha
 - Hugging Face：https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha
 
-## 仓库链接
-
-- GitHub：https://github.com/ttdxq/Qwen3-4B-Instruct-2507-mahjong-alpha
-- Hugging Face：https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha
 
 ## License
 
