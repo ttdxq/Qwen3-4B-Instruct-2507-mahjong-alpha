@@ -2,6 +2,8 @@
 
 [中文](./README.md)
 
+[![Hugging Face Models](https://img.shields.io/badge/🤗%20Hugging%20Face-models-green)](https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha) [![Model Size](https://img.shields.io/badge/Model%20Size-4B-blue)](https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha)
+
 `Qwen3-4B-Instruct-2507-mahjong-alpha` is a Riichi Mahjong domain model fine-tuned from `unsloth/Qwen3-4B-Instruct-2507` with QLoRA.
 
 It is designed for 4-player Riichi Mahjong discard recommendation: given round information, hand tiles, calls, visible tiles, tile-efficiency, and defense signals, the model outputs the single best discard tile for the current state.

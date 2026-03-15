@@ -2,6 +2,8 @@
 
 [English](./README_en.md)
 
+[![Hugging Face Models](https://img.shields.io/badge/🤗%20Hugging%20Face-models-green)](https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha) [![Model Size](https://img.shields.io/badge/Model%20Size-4B-blue)](https://huggingface.co/TTDXQ/Qwen3-4B-Instruct-2507-mahjong-alpha)
+
 `Qwen3-4B-Instruct-2507-mahjong-alpha` 是一个基于 `unsloth/Qwen3-4B-Instruct-2507` 进行 QLoRA 微调的立直麻将垂直模型，面向四麻弃牌建议任务。
 
 模型可根据输入的场次信息、手牌、副露、牌河、牌效与防守信息，输出当前最应打出的一张牌。
