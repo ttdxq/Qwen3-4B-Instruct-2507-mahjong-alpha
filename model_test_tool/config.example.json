@@ -1,0 +1,17 @@
+{
+  "_comment": "配置文件模板，复制为config.json并根据需要修改",
+  "datasets": [
+    "./data/sample_dataset.jsonl"
+  ],
+  "models": [],
+  "output_dir": "./result",
+  "sample_count": 100,
+  "eval_times": 1,
+  "correct_score": 1.0,
+  "wrong_score": 0.0,
+  "score_agg": "sum",
+  "filter_empty_results": true,
+  "timeout": 60.0,
+  "model_configs": {},
+  "completed_tasks": []
+}

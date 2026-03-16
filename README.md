@@ -228,6 +228,149 @@
 .\llama-server -m Qwen3-4B-Instruct-2507-mahjong-alpha.gguf -c 2048
 ```
 
+## 工具使用
+
+本项目提供以下工具，用于数据处理和模型评测：
+
+### 1. 模型测试工具 (model_test_tool/)
+
+基于 PySide6 的图形化模型评测工具，支持多模型并发测试和结果分析。
+
+**主要功能：**
+- 📊 可视化配置数据集和模型
+- ⚡ 支持多模型并发评测
+- 📈 实时显示评测进度和结果
+- 💾 自动保存评测结果
+- 🔧 灵活的评分和过滤配置
+
+**快速开始：**
+```bash
+cd model_test_tool
+pip install -r requirements.txt
+python src/main.py
+```
+
+**详细文档：** 请查看 [model_test_tool/README.md](./model_test_tool/README.md)
+
+**支持的场景：**
+- OpenAI API 兼容接口
+- 本地模型服务（如 llama.cpp、LM Studio）
+- 自定义 API Base 和参数配置
+
+---
+
+### 2. 数据转换工具 (process_parquet.py)
+
+将 Parquet 格式的麻将数据转换为 JSONL 格式，并自动计算牌效指标。
+
+**主要功能：**
+- 🔄 Parquet → JSONL 格式转换
+- 🎯 自动计算向听数（Shanten）
+- 🔢 自动计算进张数（Ukeire）
+- 🛡️ 计算安全牌/危险牌评分
+- ⚡ 支持多进程并行处理
+
+**使用方法：**
+```bash
+# 处理单个文件
+python process_parquet.py input.parquet output.jsonl
+
+# 处理整个文件夹
+python process_parquet.py input_folder/ output_folder/
+
+# 限制处理数量
+python process_parquet.py input.parquet output.jsonl --max=10000
+```
+
+**输出格式：**
+```json
+{
+  "text": "[情景分析]\n- 牌局: 东一局...\n[任务]\n根据当前情景，选择一张最应该打出的手牌。\n白"
+}
+```
+
+---
+
+### 3. 数据分割工具 (random_split_jsonl.py)
+
+将大型 JSONL 文件随机分割为多个固定大小的文件。
+
+**主要功能：**
+- 🎲 随机打乱数据顺序
+- ✂️ 按指定行数分割
+- 💾 内存高效的索引机制
+- ⚡ 支持多线程写入
+
+**使用方法：**
+```bash
+python random_split_jsonl.py input.jsonl \
+    --output_dir output_folder \
+    --lines_per_file 10000 \
+    --seed 42
+```
+
+**参数说明：**
+- `--output_dir`: 输出目录（默认：output_jsonl）
+- `--lines_per_file`: 每个文件的行数（必需）
+- `--seed`: 随机种子（可选，用于可复现）
+- `--workers`: 并发线程数（默认：1）
+
+**输出示例：**
+```
+output_folder/
+├── input_00000.jsonl
+├── input_00001.jsonl
+├── input_00002.jsonl
+└── ...
+```
+
+---
+
+### 4. 数据重组工具 (shuffle_and_split_jsonl.py)
+
+按巡目比例重新平衡麻将数据集，确保各巡目数据分布合理。
+
+**主要功能：**
+- 📊 按巡目自动分类（序盘/构筑/对攻/尾巡）
+- ⚖️ 智能比例重组（可配置）
+- 🔄 全局洗牌打乱顺序
+- ⚡ 多进程并行处理
+
+**巡目分类：**
+- 序盘（1-3巡）：15%
+- 构筑（4-6巡）：20%
+- 对攻（7-12巡）：30%
+- 尾巡（13+巡）：35%
+
+**使用方法：**
+```bash
+# 基本用法：自动重组数据集
+python shuffle_and_split_jsonl.py input_data/ \
+    --output_dir balanced_data/ \
+    --lines_per_file 10000
+
+# 仅分桶不重组
+python shuffle_and_split_jsonl.py input_data/ \
+    --output_dir split_data/ \
+    --split_only
+```
+
+**参数说明：**
+- `--output_dir`: 输出目录（默认：dataset_balanced）
+- `--lines_per_file`: 每个文件的行数（默认：10000）
+- `--max_files`: 最大输出文件数（默认：0=自动计算）
+- `--workers`: 并发进程数（默认：CPU核心数）
+- `--split_only`: 仅分桶输出，不进行比例重组
+
+**输出结构：**
+```
+balanced_data/
+├── train_balanced_00000.jsonl  # 重组后的平衡数据
+├── train_balanced_00001.jsonl
+└── ...
+```
+
+---
 
 ## 仓库链接
 

@@ -230,6 +230,149 @@ Inference parameters: Temperature=0.6, Top_P=0.95
 .\llama-server -m Qwen3-4B-Instruct-2507-mahjong-alpha.gguf -c 2048
 ```
 
+## Tools
+
+This repository includes the following tools for data processing and model evaluation:
+
+### 1. Model Testing Tool (model_test_tool/)
+
+A GUI-based model evaluation tool powered by PySide6, supporting multi-model concurrent testing and result analysis.
+
+**Key Features:**
+- 📊 Visual configuration for datasets and models
+- ⚡ Multi-model concurrent evaluation
+- 📈 Real-time progress and result display
+- 💾 Automatic result saving
+- 🔧 Flexible scoring and filtering options
+
+**Quick Start:**
+```bash
+cd model_test_tool
+pip install -r requirements.txt
+python src/main.py
+```
+
+**Documentation:** See [model_test_tool/README.md](./model_test_tool/README.md)
+
+**Supported Scenarios:**
+- OpenAI API-compatible endpoints
+- Local model servers (e.g., llama.cpp, LM Studio)
+- Custom API Base and parameter configuration
+
+---
+
+### 2. Data Conversion Tool (process_parquet.py)
+
+Converts Mahjong data from Parquet format to JSONL format, with automatic tile-efficiency calculations.
+
+**Key Features:**
+- 🔄 Parquet → JSONL format conversion
+- 🎯 Automatic Shanten (tile efficiency) calculation
+- 🔢 Automatic Ukeire (effective tiles) calculation
+- 🛡️ Safe/dangerous tile scoring
+- ⚡ Multi-process parallel processing
+
+**Usage:**
+```bash
+# Process single file
+python process_parquet.py input.parquet output.jsonl
+
+# Process entire folder
+python process_parquet.py input_folder/ output_folder/
+
+# Limit processing count
+python process_parquet.py input.parquet output.jsonl --max=10000
+```
+
+**Output Format:**
+```json
+{
+  "text": "[情景分析]\n- 牌局: 东一局...\n[任务]\n根据当前情景，选择一张最应该打出的手牌。\n白"
+}
+```
+
+---
+
+### 3. Data Splitting Tool (random_split_jsonl.py)
+
+Randomly splits large JSONL files into multiple fixed-size files.
+
+**Key Features:**
+- 🎲 Random shuffling of data
+- ✂️ Split by specified line count
+- 💾 Memory-efficient indexing
+- ⚡ Multi-threaded writing support
+
+**Usage:**
+```bash
+python random_split_jsonl.py input.jsonl \
+    --output_dir output_folder \
+    --lines_per_file 10000 \
+    --seed 42
+```
+
+**Parameters:**
+- `--output_dir`: Output directory (default: output_jsonl)
+- `--lines_per_file`: Lines per file (required)
+- `--seed`: Random seed (optional, for reproducibility)
+- `--workers`: Concurrent threads (default: 1)
+
+**Output Example:**
+```
+output_folder/
+├── input_00000.jsonl
+├── input_00001.jsonl
+├── input_00002.jsonl
+└── ...
+```
+
+---
+
+### 4. Data Rebalancing Tool (shuffle_and_split_jsonl.py)
+
+Rebalances Mahjong dataset by turn distribution to ensure reasonable data distribution across game stages.
+
+**Key Features:**
+- 📊 Automatic turn-based categorization (early/building/attack/late)
+- ⚖️ Intelligent proportional rebalancing (configurable)
+- 🔄 Global shuffling
+- ⚡ Multi-process parallel processing
+
+**Turn Categorization:**
+- Early (turns 1-3): 15%
+- Building (turns 4-6): 20%
+- Attack (turns 7-12): 30%
+- Late (turns 13+): 35%
+
+**Usage:**
+```bash
+# Basic: automatic rebalancing
+python shuffle_and_split_jsonl.py input_data/ \
+    --output_dir balanced_data/ \
+    --lines_per_file 10000
+
+# Categorization only, no rebalancing
+python shuffle_and_split_jsonl.py input_data/ \
+    --output_dir split_data/ \
+    --split_only
+```
+
+**Parameters:**
+- `--output_dir`: Output directory (default: dataset_balanced)
+- `--lines_per_file`: Lines per file (default: 10000)
+- `--max_files`: Max output files (default: 0=auto-calculate)
+- `--workers`: Concurrent processes (default: CPU cores)
+- `--split_only`: Categorize only, no proportional rebalancing
+
+**Output Structure:**
+```
+balanced_data/
+├── train_balanced_00000.jsonl  # Rebalanced data
+├── train_balanced_00001.jsonl
+└── ...
+```
+
+---
 
 ## Repository Links
 

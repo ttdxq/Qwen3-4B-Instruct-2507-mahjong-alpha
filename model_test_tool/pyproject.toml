@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [".conda", ".git", "build", "dist"]
+qt_api = "pyside6"
